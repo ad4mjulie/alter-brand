@@ -1,0 +1,94 @@
+{
+    "common": {
+        "season": "Season 01"
+    },
+    "navigation": {
+        "shop": "Shop",
+        "manifesto": "Manifesto",
+        "lookbook": "Lookbook",
+        "account": "Account",
+        "cart": "Cart"
+    },
+    "home": {
+        "title": "ALTER",
+        "subtitle": "FORGED IN THE SHADOWS",
+        "subtitle2": "MADE FOR THE STREETS",
+        "cta": "Enter the Void",
+        "browse": "Browse Collection"
+    },
+    "product": {
+        "size": "Select Size",
+        "color": "Select Color",
+        "addToCart": "Add to Collection",
+        "description": "Description",
+        "details": "Details",
+        "related": "More Artifacts"
+    },
+    "cart": {
+        "title": "Your Artifacts",
+        "empty": "The void is empty.",
+        "emptySub": "Acquire some artifacts.",
+        "total": "Total",
+        "checkout": "Proceed to Ritual"
+    },
+    "account": {
+        "title": "Account",
+        "enter": "Enter",
+        "initiate": "Initiate",
+        "email": "Email",
+        "password": "Password",
+        "signIn": "Sign In",
+        "join": "Join",
+        "noAccount": "No account? Join the Order.",
+        "alreadyInitiated": "Already initiated? Enter.",
+        "signOut": "Sign Out",
+        "memberSince": "Member Since",
+        "adminPanel": "Enter Sanctum (Admin Panel)",
+        "edit": "EDIT",
+        "save": "Save",
+        "cancel": "Cancel",
+        "loading": "LOADING RITUAL..."
+    },
+    "about": {
+        "title": "THE MANIFESTO",
+        "paragraph1": "ALTER is a clothing brand rooted in street culture and modern design. We create well-crafted pieces for people who value individuality, quality, and subtle expression.",
+        "paragraph2": "Born from the underground and refined with care, ALTER focuses on clean design, durability, and presence without excess. It is about wearing something that feels intentional, understated, and real."
+    },
+    "shop": {
+        "title": "Artifacts",
+        "subtitle": "Season 01: Genesis",
+        "addToCart": "Add to Cart",
+        "outOfStock": "Vanished",
+        "viewAll": "View All Artifacts"
+    },
+    "checkout": {
+        "title": "Complete the Ritual",
+        "orderDetails": "Order Details",
+        "fullName": "Full Name",
+        "wilaya": "Wilaya",
+        "city": "City",
+        "address": "Address",
+        "phoneNumber": "Phone Number",
+        "submit": "Complete Ritual",
+        "confirmationCall": "You will receive a call to confirm this order",
+        "paymentNote": "Order confirmation via phone call • Payment upon arrival"
+    },
+    "confirmation": {
+        "thankYou": "Thank you for your order, {name}!",
+        "successMessage": "Your order has been successfully placed.",
+        "summary": "Order Summary",
+        "orderNumber": "Order Number",
+        "items": "Items",
+        "quantity": "Quantity",
+        "price": "Price",
+        "total": "Total",
+        "shippingInfo": "Shipping Information",
+        "paymentMethod": "Payment Method",
+        "cod": "Cash on Delivery",
+        "nextSteps": "Next Steps",
+        "emailNotice": "A confirmation email will be sent to your shadows shortly.",
+        "estimatedDelivery": "Estimated Delivery: 3-5 Standard Days",
+        "continueShopping": "Return to Shop",
+        "viewOrders": "View/Track Artifacts"
+    }
+}

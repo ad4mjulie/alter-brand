@@ -1,0 +1,77 @@
+"use client"
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import ProductOptions from './ProductOptions'
+import AddToCartButton from './AddToCartButton'
+
+export default function ProductClient({ product, dict }: { product: any, dict: any }) {
+    const sizes = product.sizes.split(',')
+    const colors = product.colors.split(',')
+
+    const [selectedSize, setSelectedSize] = useState(sizes[0])
+    const [selectedColor, setSelectedColor] = useState(colors[0])
+
+    return (
+        <div className="space-y-12">
+            <div>
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-brand-crimson text-sm uppercase tracking-[0.3em] mb-4"
+                >
+                    {product.category}
+                </motion.p>
+                <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="font-serif text-5xl md:text-7xl text-[var(--foreground)] mb-6"
+                >
+                    {product.name}
+                </motion.h1>
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-[var(--text-muted)] leading-relaxed max-w-lg"
+                >
+                    {product.description}
+                </motion.p>
+            </div>
+
+            <ProductOptions
+                sizes={sizes}
+                colors={colors}
+                selectedSize={selectedSize}
+                setSelectedSize={setSelectedSize}
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+                dict={dict}
+            />
+
+            <div className="pt-8">
+                <AddToCartButton
+                    product={product}
+                    selectedSize={selectedSize}
+                    selectedColor={selectedColor}
+                    dict={dict}
+                />
+            </div>
+
+            <div className="space-y-4 pt-12 border-t border-[var(--panel-border)]">
+                <details className="group">
+                    <summary className="flex justify-between items-center cursor-pointer text-xs uppercase tracking-widest text-[var(--foreground)] hover:text-brand-crimson transition-colors list-none">
+                        <span>{dict.details}</span>
+                        <span className="group-open:rotate-180 transition-transform">↓</span>
+                    </summary>
+                    <div className="pt-4 text-xs text-[var(--text-muted)] uppercase leading-loose">
+                        • Handcrafted in Algeria<br />
+                        • Premium high-density materials<br />
+                        • Limited shadow edition
+                    </div>
+                </details>
+            </div>
+        </div>
+    )
+}
