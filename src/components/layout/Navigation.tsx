@@ -144,6 +144,10 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                                     <Languages size={18} strokeWidth={1} />
                                     {lang === 'en' ? 'العربية' : 'English'}
                                 </Link>
+                                <div className="flex items-center gap-2 text-brand-silver/50">
+                                    <span className="text-[10px] uppercase tracking-widest">Theme</span>
+                                    <ThemeToggle />
+                                </div>
                             </div>
                         </motion.div>
                     </>
