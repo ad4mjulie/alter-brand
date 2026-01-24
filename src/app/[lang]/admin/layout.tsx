@@ -19,7 +19,7 @@ export default async function AdminLayout({
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') {
+    if (user?.role !== 'admin') {
         // For development, if there are no admins, we might want to allow access or promote the first user.
         // But for now, let's be strict.
         redirect(`/${lang}`)
