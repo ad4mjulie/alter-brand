@@ -41,15 +41,15 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                 transition={{ duration: 1, delay: 0.5 }}
                 className="fixed top-0 left-0 right-0 z-50 px-6 py-6 flex items-center justify-between mix-blend-difference"
             >
-                {/* Left: Universal Menu Icon & Theme Toggle */}
-                <div className="flex items-center gap-4">
+                {/* Left: Theme Toggle (Top) & Universal Menu Icon (Bottom) */}
+                <div className="flex flex-col items-center gap-2">
+                    <ThemeToggle />
                     <button
                         onClick={() => setIsMenuOpen(true)}
-                        className="text-brand-silver hover:text-brand-crimson transition-colors"
+                        className="text-brand-silver hover:text-brand-crimson transition-colors p-2"
                     >
                         <MoreVertical size={20} strokeWidth={1} />
                     </button>
-                    <ThemeToggle />
                 </div>
 
                 {/* Center: Brand Logo */}
@@ -57,20 +57,19 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                     <BrandLogo />
                 </Link>
 
-                {/* Right: Cart & Actions */}
-                <div className="flex items-center gap-3 md:gap-6 text-brand-silver">
+                {/* Right: Cart (Top) & Language (Bottom) */}
+                <div className="flex flex-col items-center gap-2 text-brand-silver">
+                    <button onClick={() => setIsOpen(true)} className="hover:text-brand-crimson transition-colors relative p-2">
+                        <ShoppingBag size={20} strokeWidth={1} />
+                        {total > 0 && <span className="absolute top-1 right-1 w-2 h-2 bg-brand-crimson rounded-full" />}
+                    </button>
                     <Link
                         href={getTogglePath()}
-                        className="flex items-center gap-2 text-[10px] uppercase tracking-widest hover:text-brand-crimson transition-colors"
+                        className="flex items-center justify-center p-2 text-[10px] uppercase tracking-widest hover:text-brand-crimson transition-colors"
                     >
                         <Languages size={14} strokeWidth={1} />
-                        {lang === 'en' ? 'العربية' : 'EN'}
+                        <span className="sr-only">{lang === 'en' ? 'Arabic' : 'English'}</span>
                     </Link>
-                    <Link href={`/${lang}/account`} className="hidden md:block text-xs uppercase tracking-widest hover:text-brand-crimson transition-colors">{dict.account}</Link>
-                    <button onClick={() => setIsOpen(true)} className="hover:text-brand-crimson transition-colors relative">
-                        <ShoppingBag size={20} strokeWidth={1} />
-                        {total > 0 && <span className="absolute -top-1 -right-1 w-2 h-2 bg-brand-crimson rounded-full" />}
-                    </button>
                 </div>
             </motion.header>
 
