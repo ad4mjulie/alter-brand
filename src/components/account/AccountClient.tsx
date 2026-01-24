@@ -102,7 +102,7 @@ export default function AccountClient({ lang, dict }: { lang: string, dict: any 
                             <span className="text-[var(--foreground)]">{new Date(user.createdAt).toLocaleDateString()}</span>
                         </div>
 
-                        {user.role === 'ADMIN' && (
+                        {user.role === 'admin' && (
                             <Link
                                 href={`/${lang}/admin`}
                                 className="block w-full py-4 mt-8 bg-brand-crimson/10 border border-brand-crimson/50 text-brand-crimson hover:bg-brand-crimson hover:text-white transition-all uppercase tracking-[0.2em] text-xs font-bold text-center"

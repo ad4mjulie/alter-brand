@@ -15,7 +15,7 @@ export default async function AdminOrdersPage({ params }: { params: Promise<{ la
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') redirect(`/${lang}`)
+    if (user?.role !== 'admin') redirect(`/${lang}`)
 
     const orders = await getOrders()
 

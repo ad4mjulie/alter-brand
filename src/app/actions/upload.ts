@@ -14,7 +14,7 @@ async function checkAdmin() {
         select: { role: true }
     })
 
-    return user?.role === 'ADMIN'
+    return user?.role === 'admin'
 }
 
 export async function uploadImage(formData: FormData) {

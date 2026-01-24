@@ -17,7 +17,7 @@ export default async function AdminProductsPage({ params }: { params: Promise<{ 
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') redirect(`/${lang}`)
+    if (user?.role !== 'admin') redirect(`/${lang}`)
 
     const [products, collections] = await Promise.all([
         getAdminProducts(),

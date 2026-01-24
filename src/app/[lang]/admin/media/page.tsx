@@ -14,7 +14,7 @@ export default async function AdminMediaPage({ params }: { params: Promise<{ lan
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') redirect(`/${lang}`)
+    if (user?.role !== 'admin') redirect(`/${lang}`)
 
     const images = await db.productImage.findMany({
         include: { product: { select: { name: true } } },

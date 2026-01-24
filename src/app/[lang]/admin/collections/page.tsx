@@ -15,7 +15,7 @@ export default async function AdminCollectionsPage({ params }: { params: Promise
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') redirect(`/${lang}`)
+    if (user?.role !== 'admin') redirect(`/${lang}`)
 
     const collections = await getCollections()
 

@@ -14,7 +14,7 @@ export default async function AdminSettingsPage({ params }: { params: Promise<{ 
         select: { role: true }
     })
 
-    if (user?.role !== 'ADMIN') redirect(`/${lang}`)
+    if (user?.role !== 'admin') redirect(`/${lang}`)
 
     return <AdminSettingsClient />
 }
