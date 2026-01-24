@@ -54,7 +54,7 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
 
                 {/* Center: Brand Logo - Hidden in Admin Panel */}
                 {!pathname.includes('/admin') && (
-                    <Link href={`/${lang}`} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-12">
+                    <Link href={`/${lang}`} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-6">
                         <BrandLogo />
                     </Link>
                 )}
