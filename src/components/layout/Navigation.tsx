@@ -39,10 +39,10 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="fixed top-0 left-0 right-0 z-50 px-6 py-6 flex items-center justify-between mix-blend-difference"
+                className="fixed top-0 left-0 right-0 z-50 px-6 py-6 flex items-center justify-between"
             >
                 {/* Left: Theme Toggle (Top) & Universal Menu Icon (Bottom) */}
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 mix-blend-difference">
                     <ThemeToggle />
                     <button
                         onClick={() => setIsMenuOpen(true)}
@@ -58,7 +58,7 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                 </Link>
 
                 {/* Right: Cart (Top) & Language (Bottom) */}
-                <div className="flex flex-col items-center gap-2 text-brand-silver">
+                <div className="flex flex-col items-center gap-2 text-brand-silver mix-blend-difference">
                     <button onClick={() => setIsOpen(true)} className="hover:text-brand-crimson transition-colors relative p-2">
                         <ShoppingBag size={20} strokeWidth={1} />
                         {total > 0 && <span className="absolute top-1 right-1 w-2 h-2 bg-brand-crimson rounded-full" />}
