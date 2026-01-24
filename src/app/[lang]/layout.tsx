@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 
 
 import { ThemeProvider } from '@/context/ThemeContext'
+import { getUser } from '@/app/actions/auth'
 
 export default async function RootLayout({
   children,
@@ -42,6 +43,7 @@ export default async function RootLayout({
 }) {
   const { lang } = await params
   const dictionary = await getDictionary(lang as Locale)
+  const user = await getUser()
   const dir = lang === 'ar' ? 'rtl' : 'ltr'
 
   return (
@@ -49,7 +51,7 @@ export default async function RootLayout({
       <body className={`antialiased font-sans selection:bg-brand-crimson selection:text-white ${lang === 'ar' ? 'font-arabic' : ''}`}>
         <ThemeProvider>
           <CartProvider>
-            <Navigation lang={lang} dict={dictionary.navigation} />
+            <Navigation lang={lang} dict={dictionary.navigation} user={user} />
             <CartDrawer lang={lang} dict={dictionary.cart} />
             {children}
           </CartProvider>

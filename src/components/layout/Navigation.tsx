@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence } from 'framer-motion'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
-export default function Navigation({ lang, dict }: { lang: string, dict: any }) {
+export default function Navigation({ lang, dict, user }: { lang: string, dict: any, user: any }) {
     const { setIsOpen, total } = useCart()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const pathname = usePathname()
@@ -124,6 +124,15 @@ export default function Navigation({ lang, dict }: { lang: string, dict: any }) 
                                 >
                                     {dict.account}
                                 </Link>
+                                {user?.role === 'admin' && (
+                                    <Link
+                                        href={`/${lang}/admin`}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="text-xl md:text-3xl font-serif text-brand-crimson hover:text-brand-crimson/80 transition-colors uppercase tracking-widest"
+                                    >
+                                        Admin Panel
+                                    </Link>
+                                )}
                             </nav>
 
                             <div className="mt-auto pt-8 border-t border-[var(--panel-border)]">
