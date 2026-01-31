@@ -23,16 +23,7 @@ export default function AdminCollectionsClient({ collections, lang }: { collecti
                     <h1 className="font-serif text-4xl text-[var(--foreground)] mb-2">Collections</h1>
                     <p className="text-[var(--text-muted)] text-xs uppercase tracking-widest">Organize the shadows into groups</p>
                 </div>
-                <button
-                    onClick={() => {
-                        setEditingCollection(null)
-                        setIsModalOpen(true)
-                    }}
-                    className="flex items-center justify-center gap-2 bg-[var(--foreground)] text-[var(--background)] px-6 py-3 uppercase tracking-widest text-xs font-bold hover:bg-brand-crimson hover:text-white transition-colors"
-                >
-                    <Plus size={16} />
-                    New Collection
-                </button>
+                <div />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -44,6 +35,7 @@ export default function AdminCollectionsClient({ collections, lang }: { collecti
                             </div>
                             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
+                                    type="button"
                                     onClick={() => {
                                         setEditingCollection(coll)
                                         setIsModalOpen(true)
@@ -53,6 +45,7 @@ export default function AdminCollectionsClient({ collections, lang }: { collecti
                                     <Edit2 size={14} />
                                 </button>
                                 <button
+                                    type="button"
                                     onClick={() => handleDelete(coll.id)}
                                     className="p-1.5 text-[var(--text-muted)] hover:text-brand-crimson transition-colors"
                                 >
@@ -78,7 +71,7 @@ export default function AdminCollectionsClient({ collections, lang }: { collecti
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-md bg-[var(--background)] border border-[var(--panel-border)] p-8 shadow-2xl">
                             <div className="flex items-center justify-between mb-8 border-b border-[var(--panel-border)] pb-4">
                                 <h2 className="font-serif text-2xl text-[var(--foreground)]">{editingCollection ? 'Edit Collection' : 'New Collection'}</h2>
-                                <button onClick={() => setIsModalOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors"><X size={24} /></button>
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors"><X size={24} /></button>
                             </div>
                             <form action={async (formData) => {
                                 const data = {
@@ -110,6 +103,27 @@ export default function AdminCollectionsClient({ collections, lang }: { collecti
                     </div>
                 )}
             </AnimatePresence>
+            {/* Floating Action Button */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="fixed bottom-12 right-12 z-[90]"
+            >
+                <button
+                    type="button"
+                    onClick={() => {
+                        setEditingCollection(null)
+                        setIsModalOpen(true)
+                    }}
+                    className="group relative flex items-center justify-center gap-3 bg-brand-crimson text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-white hover:text-black transition-all duration-500 shadow-[0_0_30px_rgba(220,38,38,0.5)] hover:shadow-[0_0_50px_rgba(220,38,38,0.8)] overflow-hidden"
+                >
+                    <Plus size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+                    <span className="relative z-10">New Collection</span>
+
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    <div className="absolute inset-0 border border-white/30 scale-[1.03] group-hover:scale-100 transition-transform duration-500" />
+                </button>
+            </motion.div>
         </div>
     )
 }
