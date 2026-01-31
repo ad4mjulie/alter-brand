@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
 import { Plus, Search, Edit2, Trash2, AlertTriangle, Image as ImageIcon, X } from 'lucide-react'
 import NextImage from 'next/image'
 import { deleteProduct, createProduct, updateProduct } from '@/app/actions/admin-products'
