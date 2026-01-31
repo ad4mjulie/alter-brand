@@ -20,6 +20,7 @@ export default function AdminProductsClient({ products, collections = [], lang }
     const [editingProduct, setEditingProduct] = useState<any>(null)
     const [formImages, setFormImages] = useState<string[]>([])
     const [formColors, setFormColors] = useState<string[]>([])
+    const [showLowStockOnly, setShowLowStockOnly] = useState(false)
 
     const openModal = (product: any | null) => {
         setEditingProduct(product)
@@ -29,10 +30,12 @@ export default function AdminProductsClient({ products, collections = [], lang }
     }
 
 
-    const filteredProducts = products.filter(p =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filteredProducts = products.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            p.category.toLowerCase().includes(searchTerm.toLowerCase())
+        const matchesStock = showLowStockOnly ? p.stock < 10 : true
+        return matchesSearch && matchesStock
+    })
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this artifact?")) {
@@ -52,15 +55,29 @@ export default function AdminProductsClient({ products, collections = [], lang }
             </div>
 
             {/* Search and Filters */}
-            <div className="relative max-w-md">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={18} />
-                <input
-                    type="text"
-                    placeholder="Search artifacts..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-[var(--panel-bg)] border border-[var(--panel-border)] pl-12 pr-4 py-3 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors text-xs uppercase tracking-widest"
-                />
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+                <div className="relative flex-1 max-w-md">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={18} />
+                    <input
+                        type="text"
+                        placeholder="Search artifacts..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-[var(--panel-bg)] border border-[var(--panel-border)] pl-12 pr-4 py-3 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors text-xs uppercase tracking-widest"
+                    />
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => setShowLowStockOnly(!showLowStockOnly)}
+                    className={`flex items-center gap-2 px-6 py-3 text-[10px] uppercase tracking-widest border transition-all ${showLowStockOnly
+                            ? 'bg-brand-crimson text-white border-brand-crimson'
+                            : 'bg-[var(--panel-bg)] border-[var(--panel-border)] text-[var(--text-muted)] hover:border-brand-crimson'
+                        }`}
+                >
+                    <AlertTriangle size={14} className={showLowStockOnly ? 'animate-pulse' : ''} />
+                    Low Stock Only
+                </button>
             </div>
 
             {/* Products Table */}
@@ -96,8 +113,10 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                 <td className="py-4 px-4 text-xs text-[var(--text-muted)] uppercase tracking-widest">{product.category}</td>
                                 <td className="py-4 px-4 text-xs text-[var(--foreground)] text-right font-sans">{product.price} DZD</td>
                                 <td className="py-4 px-4 text-right">
-                                    <div className={`inline-flex items-center gap-2 text-xs font-sans ${product.stock < 10 ? 'text-brand-crimson' : 'text-[var(--text-muted)]'}`}>
-                                        {product.stock < 10 && <AlertTriangle size={14} />}
+                                    <div className={`inline-flex items-center gap-2 text-xs font-sans font-bold ${product.stock === 0 ? 'text-brand-crimson' :
+                                            product.stock < 10 ? 'text-orange-500' : 'text-[var(--text-muted)]'
+                                        }`}>
+                                        {(product.stock === 0 || product.stock < 10) && <AlertTriangle size={14} className={product.stock === 0 ? 'animate-pulse' : ''} />}
                                         {product.stock}
                                     </div>
                                 </td>

@@ -23,33 +23,67 @@ export async function createOrder(data: {
         const session = await getSession()
         const userId = session?.userId as string | undefined
 
-        const order = await db.order.create({
-            data: {
-                userId,
-                fullName: data.fullName,
-                wilaya: data.wilaya,
-                city: data.city,
-                address: data.address,
-                phoneNumber: data.phoneNumber,
-                total: data.total,
-                status: 'PENDING',
-                items: {
-                    create: data.items.map(item => ({
-                        productId: item.productId,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                        size: item.size,
-                        color: item.color,
-                    })),
+        // Use transaction to ensure stock is decremented only if order is created successfully
+        const result = await db.$transaction(async (tx) => {
+            // 1. Check stock availability for all items first
+            for (const item of data.items) {
+                const product = await tx.product.findUnique({
+                    where: { id: item.productId },
+                    select: { stock: true, name: true }
+                })
+
+                if (!product) {
+                    throw new Error(`Product ${item.name} not found.`)
+                }
+
+                if (product.stock < item.quantity) {
+                    throw new Error(`Insufficient stock for ${product.name}. Requested: ${item.quantity}, Available: ${product.stock}`)
+                }
+            }
+
+            // 2. Create the order
+            const order = await tx.order.create({
+                data: {
+                    userId,
+                    fullName: data.fullName,
+                    wilaya: data.wilaya,
+                    city: data.city,
+                    address: data.address,
+                    phoneNumber: data.phoneNumber,
+                    total: data.total,
+                    status: 'PENDING',
+                    items: {
+                        create: data.items.map(item => ({
+                            productId: item.productId,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            size: item.size,
+                            color: item.color,
+                        })),
+                    },
                 },
-            },
+            })
+
+            // 3. Decrement stock for each item
+            for (const item of data.items) {
+                await tx.product.update({
+                    where: { id: item.productId },
+                    data: {
+                        stock: {
+                            decrement: item.quantity
+                        }
+                    }
+                })
+            }
+
+            return order
         })
 
-        return { success: true, orderId: order.id }
+        return { success: true, orderId: result.id }
     } catch (error: any) {
         console.error('Failed to create order:', error)
-        return { success: false, error: `Failed to create order: ${error.message || 'Unknown error'}` }
+        return { success: false, error: error.message || 'Failed to complete the manifestation.' }
     }
 }
 
