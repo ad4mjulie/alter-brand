@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Upload, Trash2, Copy, Check, Search, Filter, Image as ImageIcon, X } from 'lucide-react'
+import { ImageIcon, Trash2, X, Plus, Search, Copy, Check } from 'lucide-react'
 import NextImage from 'next/image'
-import { getMedia, uploadMedia, deleteMedia } from '@/app/actions/admin-media'
+import { deleteMedia, createMedia } from '@/app/actions/admin-media'
 
 export default function AdminMediaClient({ images, lang }: { images: any[], lang: string }) {
     const [searchTerm, setSearchTerm] = useState("")

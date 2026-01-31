@@ -3,18 +3,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Plus,
-    Search,
-    Edit2,
-    Trash2,
-    Package,
-    AlertTriangle,
-    Image as ImageIcon,
-    X,
-    Moon, Sun, Monitor, FileCode, Layers, Database, ChevronLeft, ChevronRight, RefreshCw, Filter
-} from 'lucide-react'
+import { Plus, Search, Edit2, Trash2, AlertTriangle, Image as ImageIcon, X } from 'lucide-react'
 import NextImage from 'next/image'
-import { getProducts, deleteProduct, createProduct, updateProduct } from '@/app/actions/admin-products'
+import { deleteProduct, createProduct, updateProduct } from '@/app/actions/admin-products'
 
 export default function AdminProductsClient({ products, collections = [], lang }: { products: any[], collections?: any[], lang: string }) {
     const [searchTerm, setSearchTerm] = useState("")
