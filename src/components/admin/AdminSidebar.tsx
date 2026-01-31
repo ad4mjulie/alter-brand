@@ -29,6 +29,7 @@ export default function AdminSidebar({ lang }: { lang: string }) {
         { href: `/${lang}/admin/users`, label: 'Users', icon: Users },
         { href: `/${lang}/admin/media`, label: 'Media', icon: ImageIcon },
         { href: `/${lang}/admin/settings`, label: 'Settings', icon: Settings },
+        { href: `/${lang}/admin/database`, label: 'Database', icon: FolderTree },
     ]
 
     return (
@@ -74,7 +75,14 @@ export default function AdminSidebar({ lang }: { lang: string }) {
                     })}
                 </nav>
 
-                <div className="absolute bottom-0 left-0 right-0 p-4">
+                <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+                    <Link
+                        href={`/${lang}`}
+                        className="flex items-center gap-3 px-4 py-3 text-sm uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)] w-full transition-colors"
+                    >
+                        <LogOut size={18} strokeWidth={1} className="rotate-180" />
+                        Back to Website
+                    </Link>
                     <button
                         onClick={() => logout()}
                         className="flex items-center gap-3 px-4 py-3 text-sm uppercase tracking-widest text-brand-crimson hover:bg-brand-crimson/10 w-full transition-colors"

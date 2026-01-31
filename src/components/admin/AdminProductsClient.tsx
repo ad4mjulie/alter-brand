@@ -50,10 +50,11 @@ export default function AdminProductsClient({ products, collections = [], lang }
                 </div>
                 <button
                     onClick={() => openModal(null)}
-                    className="flex items-center justify-center gap-2 bg-[var(--foreground)] text-[var(--background)] px-6 py-3 uppercase tracking-widest text-xs font-bold hover:bg-brand-crimson hover:text-white transition-colors"
+                    className="group relative flex items-center justify-center gap-3 bg-brand-crimson text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]"
                 >
-                    <Plus size={16} />
+                    <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
                     Forge New Artifact
+                    <div className="absolute inset-0 border border-white/20 scale-105 group-hover:scale-100 transition-transform duration-300" />
                 </button>
             </div>
 
