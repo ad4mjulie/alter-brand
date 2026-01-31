@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ImageIcon, Trash2, X, Plus, Search, Copy, Check } from 'lucide-react'
-
-import { deleteMedia, createMedia } from '@/app/actions/admin-media'
+import { Upload, Trash2, Copy, Check, Search, Filter, Image as ImageIcon, X } from 'lucide-react'
+import NextImage from 'next/image'
+import { getMedia, uploadMedia, deleteMedia } from '@/app/actions/admin-media'
 
 export default function AdminMediaClient({ images, lang }: { images: any[], lang: string }) {
     const [searchTerm, setSearchTerm] = useState("")
@@ -98,7 +98,13 @@ export default function AdminMediaClient({ images, lang }: { images: any[], lang
                         animate={{ opacity: 1, scale: 1 }}
                         className="group relative aspect-[3/4] bg-[var(--panel-bg)] border border-[var(--panel-border)] overflow-hidden"
                     >
-                        <img src={img.url} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <NextImage
+                            src={img.url}
+                            alt=""
+                            fill
+                            sizes="(max-width: 768px) 50vw, 20vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
 
                         {/* Overlay Actions */}
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">

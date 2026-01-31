@@ -62,7 +62,7 @@
 
 @font-face {
   font-family: "Bremen Bd BT";
-  src: url("https://db.onlinewebfonts.com/t/a7f0c1a0170d7d141d18ceffcf192c02.woff2") format("woff2");
+  src: url("/fonts/bremen.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }

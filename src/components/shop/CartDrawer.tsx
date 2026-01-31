@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ShoppingBag, Minus, Plus, Trash2 } from 'lucide-react'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { useCart } from '@/context/CartContext'
 import Link from 'next/link'
 
@@ -50,7 +50,7 @@ export default function CartDrawer({ lang, dict }: { lang: string, dict: any }) 
                                     <div key={item.id} className="flex gap-4 bg-[var(--card-bg)] p-4 border border-[var(--panel-border)]">
                                         <div className="relative w-20 aspect-[3/4] bg-[var(--card-bg)] flex-shrink-0">
                                             {item.image && item.image !== '/placeholder.jpg' ? (
-                                                <Image
+                                                <NextImage
                                                     src={item.image}
                                                     alt={item.name}
                                                     fill

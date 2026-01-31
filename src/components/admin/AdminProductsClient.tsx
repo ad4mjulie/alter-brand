@@ -10,9 +10,11 @@ import {
     Package,
     AlertTriangle,
     Image as ImageIcon,
-    X
+    X,
+    Moon, Sun, Monitor, FileCode, Layers, Database, ChevronLeft, ChevronRight, RefreshCw, Filter
 } from 'lucide-react'
-import { deleteProduct, createProduct, updateProduct } from '@/app/actions/admin-products'
+import NextImage from 'next/image'
+import { getProducts, deleteProduct, createProduct, updateProduct } from '@/app/actions/admin-products'
 
 export default function AdminProductsClient({ products, collections = [], lang }: { products: any[], collections?: any[], lang: string }) {
     const [searchTerm, setSearchTerm] = useState("")
@@ -71,8 +73,8 @@ export default function AdminProductsClient({ products, collections = [], lang }
                     type="button"
                     onClick={() => setShowLowStockOnly(!showLowStockOnly)}
                     className={`flex items-center gap-2 px-6 py-3 text-[10px] uppercase tracking-widest border transition-all ${showLowStockOnly
-                            ? 'bg-brand-crimson text-white border-brand-crimson'
-                            : 'bg-[var(--panel-bg)] border-[var(--panel-border)] text-[var(--text-muted)] hover:border-brand-crimson'
+                        ? 'bg-brand-crimson text-white border-brand-crimson'
+                        : 'bg-[var(--panel-bg)] border-[var(--panel-border)] text-[var(--text-muted)] hover:border-brand-crimson'
                         }`}
                 >
                     <AlertTriangle size={14} className={showLowStockOnly ? 'animate-pulse' : ''} />
@@ -97,9 +99,9 @@ export default function AdminProductsClient({ products, collections = [], lang }
                             <tr key={product.id} className="group hover:bg-[var(--panel-bg)] transition-colors">
                                 <td className="py-4 px-4">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-16 bg-[var(--panel-bg)] flex items-center justify-center overflow-hidden border border-[var(--panel-border)]">
+                                        <div className="relative w-12 h-16 bg-[var(--panel-bg)] flex items-center justify-center overflow-hidden border border-[var(--panel-border)]">
                                             {product.images?.[0] ? (
-                                                <img src={product.images[0].url} alt="" className="w-full h-full object-cover" />
+                                                <NextImage src={product.images[0].url} alt="" fill sizes="48px" className="object-cover" />
                                             ) : (
                                                 <ImageIcon size={20} className="text-[var(--text-muted)] opacity-50" />
                                             )}
@@ -114,7 +116,7 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                 <td className="py-4 px-4 text-xs text-[var(--foreground)] text-right font-sans">{product.price} DZD</td>
                                 <td className="py-4 px-4 text-right">
                                     <div className={`inline-flex items-center gap-2 text-xs font-sans font-bold ${product.stock === 0 ? 'text-brand-crimson' :
-                                            product.stock < 10 ? 'text-orange-500' : 'text-[var(--text-muted)]'
+                                        product.stock < 10 ? 'text-orange-500' : 'text-[var(--text-muted)]'
                                         }`}>
                                         {(product.stock === 0 || product.stock < 10) && <AlertTriangle size={14} className={product.stock === 0 ? 'animate-pulse' : ''} />}
                                         {product.stock}
@@ -284,7 +286,13 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                         {/* Existing Images */}
                                         {formImages.map((url, idx) => (
                                             <div key={idx} className="relative aspect-[3/4] bg-[var(--panel-bg)] border border-[var(--panel-border)] group">
-                                                <img src={url} className="w-full h-full object-cover" />
+                                                <NextImage
+                                                    src={url}
+                                                    alt=""
+                                                    fill
+                                                    sizes="100px" // Adjusted size for modal grid item
+                                                    className="object-cover"
+                                                />
                                                 <button
                                                     type="button"
                                                     onClick={() => setFormImages(prev => prev.filter((_, i) => i !== idx))}
