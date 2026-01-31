@@ -48,14 +48,7 @@ export default function AdminProductsClient({ products, collections = [], lang }
                     <h1 className="font-serif text-4xl text-[var(--foreground)] mb-2">Artifact Management</h1>
                     <p className="text-[var(--text-muted)] text-xs uppercase tracking-widest">Control the physical manifestations</p>
                 </div>
-                <button
-                    onClick={() => openModal(null)}
-                    className="group relative flex items-center justify-center gap-3 bg-brand-crimson text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]"
-                >
-                    <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
-                    Forge New Artifact
-                    <div className="absolute inset-0 border border-white/20 scale-105 group-hover:scale-100 transition-transform duration-300" />
-                </button>
+                <div />
             </div>
 
             {/* Search and Filters */}
@@ -111,12 +104,14 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                 <td className="py-4 px-4 text-right">
                                     <div className="flex items-center justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
                                         <button
+                                            type="button"
                                             onClick={() => openModal(product)}
                                             className="p-2 text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--panel-bg)] rounded transition-colors"
                                         >
                                             <Edit2 size={16} />
                                         </button>
                                         <button
+                                            type="button"
                                             onClick={() => handleDelete(product.id)}
                                             className="p-2 text-[var(--text-muted)] hover:text-brand-crimson hover:bg-brand-crimson/10 rounded transition-colors"
                                         >
@@ -151,7 +146,7 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                 <h2 className="font-serif text-2xl text-[var(--foreground)]">
                                     {editingProduct ? 'Edit Artifact' : 'Forge Artifact'}
                                 </h2>
-                                <button onClick={() => setIsModalOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -334,6 +329,27 @@ export default function AdminProductsClient({ products, collections = [], lang }
                     </div>
                 )}
             </AnimatePresence>
+            {/* Floating Action Button */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="fixed bottom-12 right-12 z-[90]"
+            >
+                <button
+                    type="button"
+                    onClick={() => openModal(null)}
+                    className="group relative flex items-center justify-center gap-3 bg-brand-crimson text-white px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-white hover:text-black transition-all duration-500 shadow-[0_0_30px_rgba(220,38,38,0.5)] hover:shadow-[0_0_50px_rgba(220,38,38,0.8)] overflow-hidden"
+                >
+                    <Plus size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+                    <span className="relative z-10">Forge New Artifact</span>
+
+                    {/* Interior Glow Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
+                    {/* Border Frame */}
+                    <div className="absolute inset-0 border border-white/30 scale-[1.03] group-hover:scale-100 transition-transform duration-500" />
+                </button>
+            </motion.div>
         </div>
     )
 }
