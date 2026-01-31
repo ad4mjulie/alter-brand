@@ -1,7 +1,8 @@
 "use client"
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Minus, Plus, Trash2 } from 'lucide-react'
+import { X, ShoppingBag, Minus, Plus, Trash2 } from 'lucide-react'
+import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import Link from 'next/link'
 
@@ -47,12 +48,18 @@ export default function CartDrawer({ lang, dict }: { lang: string, dict: any }) 
                             ) : (
                                 items.map(item => (
                                     <div key={item.id} className="flex gap-4 bg-[var(--card-bg)] p-4 border border-[var(--panel-border)]">
-                                        <div className="w-20 h-24 bg-black/5 relative overflow-hidden">
-                                            {item.image ? (
-                                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                        <div className="relative w-20 aspect-[3/4] bg-[var(--card-bg)] flex-shrink-0">
+                                            {item.image && item.image !== '/placeholder.jpg' ? (
+                                                <Image
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    fill
+                                                    sizes="80px"
+                                                    className="object-cover opacity-60"
+                                                />
                                             ) : (
-                                                <div className="w-full h-full flex items-center justify-center">
-                                                    <span className="text-2xl font-serif text-black/20">{item.name[0]}</span>
+                                                <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)] opacity-20 text-[10px] font-serif">
+                                                    ALTER
                                                 </div>
                                             )}
                                         </div>

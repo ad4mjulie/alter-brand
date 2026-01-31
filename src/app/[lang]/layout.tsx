@@ -4,6 +4,7 @@ import '../globals.css'
 import Navigation from '@/components/layout/Navigation'
 import { CartProvider } from '@/context/CartContext'
 import CartDrawer from '@/components/shop/CartDrawer'
+import ProgressBar from '@/components/layout/ProgressBar'
 import { getDictionary, Locale } from '@/lib/dictionaries'
 
 const cinzel = Cinzel({
@@ -48,9 +49,13 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} dir={dir} className={`${cinzel.variable} ${inter.variable} ${amiri.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://db.onlinewebfonts.com" crossOrigin="anonymous" />
+      </head>
       <body className={`antialiased font-sans selection:bg-brand-crimson selection:text-white ${lang === 'ar' ? 'font-arabic' : ''}`}>
         <ThemeProvider>
           <CartProvider>
+            <ProgressBar />
             <Navigation lang={lang} dict={dictionary.navigation} user={user} />
             <CartDrawer lang={lang} dict={dictionary.cart} />
             {children}

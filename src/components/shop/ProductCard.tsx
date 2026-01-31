@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 
 interface ProductProps {
@@ -33,10 +33,12 @@ export default function ProductCard({ product, dict, lang }: { product: ProductP
                     {/* Product Image */}
                     <div className="w-full h-full bg-neutral-900 group-hover:scale-105 transition-transform duration-700 ease-out">
                         {product.image && product.image !== '/placeholder.jpg' ? (
-                            <img
+                            <Image
                                 src={product.image}
                                 alt={product.name}
-                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                             />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
