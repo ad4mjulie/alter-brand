@@ -51,52 +51,69 @@ export async function updateOrderStatus(orderId: string, status: string) {
 export async function getAdminStats() {
     if (!await checkAdmin()) return { error: 'Unauthorized' }
 
-    // Get date range (last 7 days)
-    const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+    const now = new Date()
+    const sevenDaysAgo = new Date(now)
+    sevenDaysAgo.setDate(now.getDate() - 7)
+    const fourteenDaysAgo = new Date(now)
+    fourteenDaysAgo.setDate(now.getDate() - 14)
 
-    const [orderCount, totalRevenue, userCount, lowStockCount, recentOrders, categoryData] = await Promise.all([
+    const [
+        orderCount,
+        totalRevenueResult,
+        userCount,
+        lowStockCount,
+        currentPeriodOrders,
+        previousPeriodOrders,
+        categoryData
+    ] = await Promise.all([
         db.order.count(),
         db.order.aggregate({
-            _sum: {
-                total: true
-            }
+            _sum: { total: true }
         }),
         db.user.count(),
         db.product.count({
-            where: {
-                stock: {
-                    lt: 10
-                }
-            }
+            where: { stock: { lt: 10 } }
+        }),
+        db.order.findMany({
+            where: { createdAt: { gte: sevenDaysAgo } },
+            select: { total: true, createdAt: true }
         }),
         db.order.findMany({
             where: {
                 createdAt: {
-                    gte: sevenDaysAgo
+                    gte: fourteenDaysAgo,
+                    lt: sevenDaysAgo
                 }
             },
-            select: {
-                total: true,
-                createdAt: true
-            }
+            select: { total: true, createdAt: true }
         }),
         db.product.groupBy({
             by: ['category'],
-            _count: {
-                _all: true
-            }
+            _count: { _all: true }
         })
     ])
 
-    // Aggregate time-series data
+    // Calculate Trends
+    const currentRevenue = currentPeriodOrders.reduce((sum, o) => sum + o.total, 0)
+    const previousRevenue = previousPeriodOrders.reduce((sum, o) => sum + o.total, 0)
+    const revenueTrend = previousRevenue === 0 ? 0 : ((currentRevenue - previousRevenue) / previousRevenue) * 100
+
+    const currentOrdersCount = currentPeriodOrders.length
+    const previousOrdersCount = previousPeriodOrders.length
+    const orderTrend = previousOrdersCount === 0 ? 0 : ((currentOrdersCount - previousOrdersCount) / previousOrdersCount) * 100
+
+    // Average Order Value (last 30 days or total)
+    const totalRevenue = totalRevenueResult._sum.total || 0
+    const averageOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0
+
+    // Aggregate time-series data (for chart)
     const dailyStats = []
     for (let i = 6; i >= 0; i--) {
         const date = new Date()
         date.setDate(date.getDate() - i)
         date.setHours(0, 0, 0, 0)
 
-        const dayOrders = recentOrders.filter(o => {
+        const dayOrders = currentPeriodOrders.filter(o => {
             const d = new Date(o.createdAt)
             d.setHours(0, 0, 0, 0)
             return d.getTime() === date.getTime()
@@ -111,14 +128,28 @@ export async function getAdminStats() {
 
     return {
         orderCount,
-        totalRevenue: totalRevenue._sum.total || 0,
+        totalRevenue,
         userCount,
         lowStockCount,
         dailyStats,
+        revenueTrend,
+        orderTrend,
+        averageOrderValue,
         categoryStats: categoryData.map(c => ({
             name: c.category,
             value: c._count._all
-        }))
+        })),
+        latestOrders: await db.order.findMany({
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+            select: {
+                id: true,
+                fullName: true,
+                total: true,
+                status: true,
+                createdAt: true
+            }
+        })
     }
 }
 
