@@ -14,40 +14,48 @@ async function checkAdmin() {
         select: { role: true }
     })
 
-    return user?.role === 'admin'
+    return user?.role?.toLowerCase() === 'admin'
 }
 
 export async function uploadImage(formData: FormData) {
-    if (!await checkAdmin()) return { error: 'Unauthorized' }
-
-    const file = formData.get('file') as File
-    if (!file) {
-        return { error: 'No file uploaded' }
+    if (!await checkAdmin()) {
+        return { error: 'Unauthorized' }
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // Ensure upload directory exists
-    const relativeUploadDir = '/uploads'
-    const uploadDir = join(process.cwd(), 'public', relativeUploadDir)
-
     try {
-        await mkdir(uploadDir, { recursive: true })
-    } catch (e) {
-        // Ignore error if directory exists
-    }
+        const file = formData.get('file') as File
+        if (!file) {
+            return { error: 'No file uploaded' }
+        }
 
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    const filename = file.name.replace(/[^a-zA-Z0-9.-]/g, '') // Sanitize filename
-    const uniqueFilename = `${uniqueSuffix}-${filename}`
-    const finalPath = join(uploadDir, uniqueFilename)
+        const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+        const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
 
-    try {
-        await writeFile(finalPath, buffer)
-        return { success: true, url: `${relativeUploadDir}/${uniqueFilename}` }
+        if (!cloudName || !uploadPreset) {
+            throw new Error('Cloudinary configuration missing')
+        }
+
+        const cloudinaryFormData = new FormData()
+        cloudinaryFormData.append('file', file)
+        cloudinaryFormData.append('upload_preset', uploadPreset)
+
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            {
+                method: 'POST',
+                body: cloudinaryFormData,
+            }
+        )
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.error?.message || 'Failed to upload to Cloudinary')
+        }
+
+        const data = await response.json()
+        return { success: true, url: data.secure_url }
     } catch (error: any) {
-        console.error('Upload error:', error)
-        return { error: 'Failed to save file' }
+        console.error('Cloudinary upload error:', error)
+        return { error: `Upload failed: ${error.message || 'Unknown error'}` }
     }
 }
