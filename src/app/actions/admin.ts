@@ -12,7 +12,7 @@ async function checkAdmin() {
         select: { role: true }
     })
 
-    return user?.role === 'admin'
+    return user?.role?.toLowerCase() === 'admin'
 }
 
 export async function getOrders() {

@@ -125,7 +125,7 @@ export default function Navigation({ lang, dict, user }: { lang: string, dict: a
                                 >
                                     {dict.account}
                                 </Link>
-                                {user?.role === 'admin' && (
+                                {user?.role?.toLowerCase() === 'admin' && (
                                     <Link
                                         href={`/${lang}/admin`}
                                         onClick={() => setIsMenuOpen(false)}
