@@ -49,17 +49,13 @@ export default function AdminMediaClient({ images, lang }: { images: any[], lang
                                 if (statusDiv) statusDiv.textContent = 'Uploading...'
 
                                 for (let i = 0; i < files.length; i++) {
-                                    const formData = new FormData()
-                                    formData.append('file', files[i])
+                                    const { uploadToCloudinary } = await import('@/lib/cloudinary-client')
+                                    const res = await uploadToCloudinary(files[i])
 
-                                    const { uploadImage } = await import('@/app/actions/upload')
-                                    const res = await uploadImage(formData)
-
-                                    if (res.error) {
-                                        alert(`Failed to upload ${files[i].name}: ${res.error}`)
+                                    if (res.success) {
+                                        await createMedia(res.url)
                                     } else {
-                                        // Save standalone image to DB
-                                        await createMedia(res.url as string)
+                                        alert(`Failed to upload ${files[i].name}: ${res.error}`)
                                     }
                                 }
 

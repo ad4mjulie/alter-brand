@@ -309,15 +309,14 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                                     if (statusDiv) statusDiv.textContent = 'Uploading...'
 
                                                     const newUrls: string[] = []
-                                                    for (let i = 0; i < files.length; i++) {
-                                                        const formData = new FormData()
-                                                        formData.append('file', files[i])
+                                                    // Dynamic import to avoid server-side dependency issues if any, though here it is a client utility
+                                                    const { uploadToCloudinary } = await import('@/lib/cloudinary-client')
 
-                                                        const { uploadImage } = await import('@/app/actions/upload')
-                                                        const res = await uploadImage(formData)
+                                                    for (let i = 0; i < files.length; i++) {
+                                                        const res = await uploadToCloudinary(files[i])
 
                                                         if (res.success) {
-                                                            newUrls.push(res.url as string)
+                                                            newUrls.push(res.url)
                                                         } else {
                                                             alert(`Failed to upload ${files[i].name}: ${res.error}`)
                                                         }
