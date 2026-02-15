@@ -188,11 +188,39 @@ export default function AdminProductsClient({ products, collections = [], lang }
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Name</label>
-                                        <input required name="name" defaultValue={editingProduct?.name} className="w-full bg-transparent border-b border-[var(--panel-border)] py-2 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors" />
+                                        <input
+                                            required
+                                            name="name"
+                                            defaultValue={editingProduct?.name}
+                                            className="w-full bg-transparent border-b border-[var(--panel-border)] py-2 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors"
+                                            onChange={(e) => {
+                                                if (!editingProduct) {
+                                                    const slugDisplay = document.querySelector('input[name="slug"]') as HTMLInputElement
+                                                    if (slugDisplay) {
+                                                        slugDisplay.value = e.target.value
+                                                            .toLowerCase()
+                                                            .trim()
+                                                            .replace(/[^\w\s-]/g, '')
+                                                            .replace(/\s+/g, '-')
+                                                    }
+                                                }
+                                            }}
+                                        />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Slug</label>
-                                        <input required name="slug" defaultValue={editingProduct?.slug} className="w-full bg-transparent border-b border-[var(--panel-border)] py-2 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors" />
+                                        <label className="text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Slug (URL-friendly)</label>
+                                        <input
+                                            required
+                                            name="slug"
+                                            defaultValue={editingProduct?.slug}
+                                            className="w-full bg-transparent border-b border-[var(--panel-border)] py-2 text-[var(--foreground)] focus:outline-none focus:border-brand-crimson transition-colors"
+                                            onChange={(e) => {
+                                                e.target.value = e.target.value
+                                                    .toLowerCase()
+                                                    .replace(/[^\w\s-]/g, '')
+                                                    .replace(/\s+/g, '-')
+                                            }}
+                                        />
                                     </div>
                                 </div>
 
