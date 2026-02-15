@@ -6,11 +6,11 @@ import ProductOptions from './ProductOptions'
 import AddToCartButton from './AddToCartButton'
 
 export default function ProductClient({ product, dict }: { product: any, dict: any }) {
-    const sizes = product.sizes.split(',')
-    const colors = product.colors.split(',')
+    const sizes = product.sizes ? product.sizes.split(',').map((s: string) => s.trim()).filter(Boolean) : []
+    const colors = product.colors ? product.colors.split(',').map((c: string) => c.trim()).filter(Boolean) : []
 
-    const [selectedSize, setSelectedSize] = useState(sizes[0])
-    const [selectedColor, setSelectedColor] = useState(colors[0])
+    const [selectedSize, setSelectedSize] = useState(sizes[0] || '')
+    const [selectedColor, setSelectedColor] = useState(colors[0] || '')
 
     return (
         <div className="space-y-12">
