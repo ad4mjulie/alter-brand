@@ -9,7 +9,7 @@ export default function OrderConfirmation({ order, dict, lang }: { order: any, d
     const [ritualComplete, setRitualComplete] = useState(false)
 
     useEffect(() => {
-        const timer = setTimeout(() => setRitualComplete(true), 3500)
+        const timer = setTimeout(() => setRitualComplete(true), 2000)
         return () => clearTimeout(timer)
     }, [])
 
@@ -56,20 +56,13 @@ export default function OrderConfirmation({ order, dict, lang }: { order: any, d
                     >
                         {/* Header Section */}
                         <div className="mb-20 text-center md:text-left">
-                            <motion.p
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="text-brand-crimson text-[10px] uppercase tracking-[0.4em] mb-4"
-                            >
-                                Manifestation Confirmed
-                            </motion.p>
                             <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                                 className="font-serif text-6xl md:text-8xl text-[var(--foreground)] lowercase tracking-tighter mb-8 leading-none"
                             >
-                                {dict.thankYou.split(' ')[0]} <span className="text-[var(--text-muted)]">{order.fullName.split(' ')[0]}</span>.
+                                thank you <span className="text-[var(--text-muted)]">{order.fullName.split(' ')[0]}</span>.
                             </motion.h1>
                             <motion.p
                                 initial={{ opacity: 0 }}
@@ -177,10 +170,7 @@ export default function OrderConfirmation({ order, dict, lang }: { order: any, d
                 )}
             </AnimatePresence>
 
-            {/* Ghost Footer */}
-            <div className="fixed bottom-8 left-0 right-0 flex justify-center opacity-10 pointer-events-none">
-                <span className="font-serif text-[15vh] tracking-[-0.1em] select-none">ALTER</span>
-            </div>
+
         </main>
     )
 }
