@@ -50,13 +50,7 @@ export default function ProductClient({ product, dict }: { product: any, dict: a
                 dict={dict}
             />
 
-            {/* TEMP DEBUG: Remove after fixing */}
-            <div className="bg-black/10 p-4 font-mono text-xs mt-4">
-                <p>Sizes: {JSON.stringify(sizes)}</p>
-                <p>Colors: {JSON.stringify(colors)}</p>
-                <p>Selected Size: "{selectedSize}"</p>
-                <p>Selected Color: "{selectedColor}"</p>
-            </div>
+
 
             <div className="pt-8">
                 <AddToCartButton
